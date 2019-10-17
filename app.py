@@ -215,8 +215,12 @@ def category_creator(category_id):
                         property_tail = ''
 
                         # template for TITLE and H1
-                        title = '{} {} {}'.format(rus_cut_name, value, properti_name)
-                        h1 = '{} - {}'.format(rus_cut_name,  value)
+                        #title = '{} {} {}'.format(rus_cut_name, value, properti_name)
+                        #h1 = '{} - {}'.format(rus_cut_name,  value)
+                        title = '{{category.name}} {{brand.name}} {{value.name}} {{property.name}}'
+                        h1 = '{{category.name}} {{brand.name}} {{property.name}} {{value.name}}'
+                        desc = 'Купить {{category.name}} {{brand.name}} {{property.name}} {{value.name}} в Киеве и' \
+                               ' Украине | (099)793-34-50 Интернет магазин Santehtech'
 
                         # filter
                         title = cleaner(title)
@@ -226,7 +230,7 @@ def category_creator(category_id):
                         sql_query_table2 = 'INSERT INTO smart_filter_patterns_i18n (id, locale, h1, meta_title, meta_description, meta_keywords, seo_text, name)' \
                                     ' VALUES ("{0}", "{1}", "{2}", "{3}", "{4}", "{5}", "{6}", "{7}")'.format(id_smart_filter,
                                                                                              'ru', h1,
-                                                                                             title, '', '', '',
+                                                                                             title, desc, '', '',
                                                                                              smart_name)
 
                         print(sql_query_table2)
