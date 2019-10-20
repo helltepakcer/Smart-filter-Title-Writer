@@ -1,6 +1,6 @@
 import pymysql
 from pymysql.cursors import DictCursor
-from passwords import IMGCMS_LOGIN, IMGCMS_PASS  # ignore error
+from passwords import IMGCMS_LOGIN, IMGCMS_PASS, PHONE_NUMBER  # ignore error
 import time
 
 
@@ -215,17 +215,21 @@ def category_creator(category_id):
                         property_tail = ''
 
                         # template for TITLE and H1
-                        #title = '{} {} {}'.format(rus_cut_name, value, properti_name)
-                        #h1 = '{} - {}'.format(rus_cut_name,  value)
-                        title = '{{category.name}} {{brand.name}} {{value.name}} {{property.name}}'
-                        h1 = '{{category.name}} {{brand.name}} {{property.name}} {{value.name}}'
-                        desc = 'Купить {{category.name}} {{brand.name}} {{property.name}} {{value.name}} в Киеве и' \
-                               ' Украине | (099)793-34-50 Интернет магазин Santehtech'
+                        title = '{} {} {}'.format(rus_cut_name, value, properti_name)
+                        h1 = '{} - {}'.format(rus_cut_name,  value)
+                        desc = 'Купить {0} {1} {2} в Киеве и' \
+                               ' Украине {3} '.format(rus_cut_name, value, properti_name,
+                                                                                  PHONE_NUMBER)
+
+                        # not work on site
+                        #title = '{{category.name}} {{brand.name}} {{value.name}} {{property.name}}'
+                        #h1 = '{{category.name}} {{property.name}} {{value.name}} {{brand.name}}'
 
                         # filter
                         title = cleaner(title)
                         h1 = cleaner(h1)
                         smart_name = cleaner(smart_name)
+                        desc = cleaner(desc)
 
                         sql_query_table2 = 'INSERT INTO smart_filter_patterns_i18n (id, locale, h1, meta_title, meta_description, meta_keywords, seo_text, name)' \
                                     ' VALUES ("{0}", "{1}", "{2}", "{3}", "{4}", "{5}", "{6}", "{7}")'.format(id_smart_filter,
@@ -235,6 +239,7 @@ def category_creator(category_id):
 
                         print(sql_query_table2)
 
+                        # Execute Query
                         cursor.execute(sql_query_table2)
                         connection.commit()
 
